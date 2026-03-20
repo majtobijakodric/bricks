@@ -5,8 +5,10 @@ const gameCanvas = document.querySelector<HTMLCanvasElement>('#gameCanvas');
 let viewHeight = window.innerHeight;
 let viewWidth = window.innerWidth;
 
+const ballColor = 'red';
+
 // Game pad properties
-let padSize = {
+let pad = {
   x: viewWidth / 2 - 25,
   y: viewHeight - 50,
   width: 50,
@@ -14,22 +16,85 @@ let padSize = {
   speed: 20
 };
 
+let ball = {
+  x: viewWidth / 2,
+  y: viewHeight / 2,
+  radius: 10,
+  speed: 5,
+  dx: 0,
+  dy: 0,
+};
+
+initializeBallVelocity();
+
 if (gameCanvas) {
   gameCanvas.width = viewWidth;
   gameCanvas.height = viewHeight;
   gameCanvas.style.width = `${viewWidth}px`;
   gameCanvas.style.height = `${viewHeight}px`;
   gameCanvas.style.backgroundColor = 'lightgray';
-  spawnPad(gameCanvas);
+  renderScene(gameCanvas);
+  animateBall();
 }
 
-function spawnPad(canvas: HTMLCanvasElement) {
+function renderScene(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext('2d');
   if (ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'blue';
-    ctx.fillRect(padSize.x, padSize.y, padSize.width, padSize.height);
+    ctx.fillRect(pad.x, pad.y, pad.width, pad.height);
+
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+    ctx.fillStyle = ballColor;
+    ctx.fill();
+    ctx.closePath();
   }
+}
+
+function initializeBallVelocity() {
+  const launchAngle = (Math.random() * Math.PI) / 2 + Math.PI / 4;
+  const horizontalDirection = Math.random() < 0.5 ? -1 : 1;
+
+  ball.dx = Math.cos(launchAngle) * ball.speed * horizontalDirection;
+  ball.dy = -Math.sin(launchAngle) * ball.speed;
+}
+
+function animateBall() {
+  if (!gameCanvas) {
+    return;
+  }
+
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  if (ball.x + ball.radius >= viewWidth || ball.x - ball.radius <= 0) {
+    ball.dx *= -1;
+    ball.x = Math.max(ball.radius, Math.min(viewWidth - ball.radius, ball.x));
+  }
+
+  const hitsPadHorizontally =
+    ball.x + ball.radius >= pad.x && ball.x - ball.radius <= pad.width + pad.x;
+  const hitsPadVertically =
+    ball.y + ball.radius >= pad.y && ball.y - ball.radius <= pad.y + pad.height;
+
+  if (ball.dy > 0 && hitsPadHorizontally && hitsPadVertically) {
+    ball.dy *= -1;
+    ball.y = pad.y - ball.radius;
+  }
+
+  if (ball.y - ball.radius <= 0) {
+    ball.dy *= -1;
+    ball.y = ball.radius;
+  }
+
+  if (ball.y + ball.radius >= viewHeight) {
+    ball.dy *= -1;
+    ball.y = viewHeight - ball.radius;
+  }
+
+  renderScene(gameCanvas);
+  requestAnimationFrame(animateBall);
 }
 
 function movePad(x: number) {
@@ -37,21 +102,21 @@ function movePad(x: number) {
     return;
   }
 
-  padSize.x = Math.max(0, Math.min(viewWidth - padSize.width, x));
-  spawnPad(gameCanvas);
+  pad.x = Math.max(0, Math.min(viewWidth - pad.width, x));
+  renderScene(gameCanvas);
 }
 
 
 addEventListener("keydown", (event) => {
-  const step = padSize.speed;
+  const step = pad.speed;
   switch (event.key) {
     case "ArrowLeft": {
-      const targetX = Math.max(0, padSize.x - step);
+      const targetX = Math.max(0, pad.x - step);
       movePad(targetX);
       break;
     }
     case "ArrowRight": {
-      const targetX = Math.min(viewWidth - padSize.width, padSize.x + step);
+      const targetX = Math.min(viewWidth - pad.width, pad.x + step);
       movePad(targetX);
       break;
     }
@@ -70,6 +135,11 @@ addEventListener("resize", () => {
     gameCanvas.height = viewHeight;
     gameCanvas.style.width = `${viewWidth}px`;
     gameCanvas.style.height = `${viewHeight}px`;
-    spawnPad(gameCanvas);
+    ball.x = viewWidth / 2;
+    ball.y = viewHeight / 2;
+    pad.x = viewWidth / 2 - pad.width / 2;
+    pad.y = viewHeight - pad.height - 10;
+    initializeBallVelocity();
+    renderScene(gameCanvas);
   }
 });
