@@ -8,15 +8,16 @@ let viewWidth = window.innerWidth;
 const ballColor = 'red';
 const padColor = 'blue';
 
-// Game pad properties
+// Pad properties
 let pad = {
   x: viewWidth / 2 - 25,
   y: viewHeight - 50,
   width: 50,
   height: 20,
-  speed: 20
+  speed: 4 // Pixels per frame
 };
 
+// Ball properties
 let ball = {
   x: viewWidth / 2,
   y: viewHeight / 2,
@@ -24,6 +25,11 @@ let ball = {
   speed: 5,
   dx: 0,
   dy: 0,
+};
+
+let input = {
+  left: false,
+  right: false,
 };
 
 initializeBallVelocity();
@@ -67,6 +73,17 @@ function animateBall() {
   if (!gameCanvas) {
     return;
   }
+
+  if (input.left) {
+    pad.x -= pad.speed;
+  }
+
+  if (input.right) {
+    pad.x += pad.speed;
+  }
+
+  pad.x = Math.max(0, Math.min(viewWidth - pad.width, pad.x));
+
 
   ball.x += ball.dx;
   ball.y += ball.dy;
@@ -112,7 +129,6 @@ function movePad(x: number) {
   renderScene(gameCanvas);
 }
 
-
 addEventListener("keydown", (event) => {
   const step = pad.speed;
   switch (event.key) {
@@ -148,4 +164,14 @@ addEventListener("resize", () => {
     initializeBallVelocity();
     renderScene(gameCanvas);
   }
+});
+
+addEventListener("keydown", (event) => {
+  if (event.key === "ArrowLeft") input.left = true;
+  if (event.key === "ArrowRight") input.right = true;
+});
+
+addEventListener("keyup", (event) => {
+  if (event.key === "ArrowLeft") input.left = false;
+  if (event.key === "ArrowRight") input.right = false;
 });
