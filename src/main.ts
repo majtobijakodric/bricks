@@ -1,4 +1,13 @@
 import './style.css';
+import { updateRefreshRateEstimate } from "./refreshRate.ts";
+
+export let refreshRateEstimate = await updateRefreshRateEstimate();
+
+setInterval(() => {
+  void updateRefreshRateEstimate().then((refreshRate) => {
+    refreshRateEstimate = refreshRate;
+  });
+}, 1000);
 
 const gameCanvas = document.querySelector<HTMLCanvasElement>('#gameCanvas');
 export const aboutButton = document.querySelector<HTMLButtonElement>('#aboutButton');
@@ -52,7 +61,11 @@ const rows = 15;
 const columns = 20;
 let arrayOfCells: { x: number; y: number; width: number; height: number }[] = [];
 
+console.log(refreshRateEstimate);
 initializeBallVelocity();
+
+
+
 
 if (gameCanvas) {
   gameCanvas.width = viewWidth;
