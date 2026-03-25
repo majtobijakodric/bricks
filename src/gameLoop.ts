@@ -1,5 +1,5 @@
 import { gameCanvas } from './canvas.ts';
-import { handlePadCollision, handleWallCollisions, updateBallPosition } from './ball.ts';
+import { handleBrickCollisions, handlePadCollision, handleWallCollisions, updateBallPosition } from './ball.ts';
 import { input, isPaused, pad } from './gameState.ts';
 import { movePadBy } from './pad.ts';
 import { renderScene } from './render.ts';
@@ -26,6 +26,7 @@ function animateFrame() {
   updateBallPosition();
   handleWallCollisions();
   handlePadCollision();
+  handleBrickCollisions();
 
   renderScene();
   requestAnimationFrame(animateFrame);

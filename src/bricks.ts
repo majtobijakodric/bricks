@@ -32,3 +32,7 @@ export function initializeBricks() {
     }
   }
 }
+
+export function removeBrickAtIndex(index: number) {
+  bricks.splice(index, 1);
+}

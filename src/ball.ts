@@ -1,3 +1,4 @@
+import { bricks, removeBrickAtIndex, type Brick } from './bricks.ts';
 import { ball, pad, viewHeight, viewWidth } from './gameState.ts';
 
 export function initializeBallVelocity() {
@@ -44,5 +45,69 @@ export function handlePadCollision() {
   if (ball.dy > 0 && hitsPadHorizontally && hitsPadVertically) {
     ball.dy *= -1;
     ball.y = pad.y - ball.radius;
+  }
+}
+
+function isBallTouchingBrick(brick: Brick) {
+  const ballLeft = ball.x - ball.radius;
+  const ballRight = ball.x + ball.radius;
+  const ballTop = ball.y - ball.radius;
+  const ballBottom = ball.y + ball.radius;
+
+  const brickLeft = brick.x;
+  const brickRight = brick.x + brick.width;
+  const brickTop = brick.y;
+  const brickBottom = brick.y + brick.height;
+
+  const overlapsHorizontally = ballRight >= brickLeft && ballLeft <= brickRight;
+  const overlapsVertically = ballBottom >= brickTop && ballTop <= brickBottom;
+
+  return overlapsHorizontally && overlapsVertically;
+}
+
+function bounceBallOffBrick(brick: Brick) {
+  const overlapFromLeft = ball.x + ball.radius - brick.x;
+  const overlapFromRight = brick.x + brick.width - (ball.x - ball.radius);
+  const overlapFromTop = ball.y + ball.radius - brick.y;
+  const overlapFromBottom = brick.y + brick.height - (ball.y - ball.radius);
+
+  const horizontalOverlap = Math.min(overlapFromLeft, overlapFromRight);
+  const verticalOverlap = Math.min(overlapFromTop, overlapFromBottom);
+
+  if (horizontalOverlap < verticalOverlap) {
+    ball.dx *= -1;
+
+    // Move the ball outside the brick so it does not collide again immediately.
+    if (overlapFromLeft < overlapFromRight) {
+      ball.x = brick.x - ball.radius;
+      return;
+    }
+
+    ball.x = brick.x + brick.width + ball.radius;
+    return;
+  }
+
+  ball.dy *= -1;
+
+  // Move the ball outside the brick so it does not collide again immediately.
+  if (overlapFromTop < overlapFromBottom) {
+    ball.y = brick.y - ball.radius;
+    return;
+  }
+
+  ball.y = brick.y + brick.height + ball.radius;
+}
+
+export function handleBrickCollisions() {
+  for (let index = 0; index < bricks.length; index += 1) {
+    const brick = bricks[index];
+
+    if (!isBallTouchingBrick(brick)) {
+      continue;
+    }
+
+    bounceBallOffBrick(brick);
+    removeBrickAtIndex(index);
+    return;
   }
 }
