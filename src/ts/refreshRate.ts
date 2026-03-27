@@ -21,6 +21,7 @@ export function startRefreshRateEstimate(): Promise<number> {
 
     requestAnimationFrame((timestamp) => {
       lastTime = timestamp;
+      
       requestAnimationFrame(estimateRefreshRate);
     });
   });

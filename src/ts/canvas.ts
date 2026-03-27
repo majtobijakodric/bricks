@@ -7,9 +7,7 @@ export const ballSpeedButton = document.querySelector<HTMLButtonElement>('#ballS
 export const padSpeedButton = document.querySelector<HTMLButtonElement>('#padSpeedButton');
 
 export function setupCanvasSize() {
-  if (!gameCanvas) {
-    return;
-  }
+  if (!gameCanvas) return;
 
   gameCanvas.width = viewWidth;
   gameCanvas.height = viewHeight;

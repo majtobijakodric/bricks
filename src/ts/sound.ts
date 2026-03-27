@@ -1,4 +1,4 @@
-import brickHitSoundFile from './assets/sound/discord-notification.mp3';
+import brickHitSoundFile from '../assets/sound/discord-notification.mp3';
 
 const brickHitSound = new Audio(brickHitSoundFile);
 brickHitSound.preload = 'auto';

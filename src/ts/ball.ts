@@ -50,16 +50,20 @@ export function handlePadCollision() {
 }
 
 function isBallTouchingBrick(brick: Brick) {
+
+  // Get the edges of the ball and the brick to check for overlap.
   const ballLeft = ball.x - ball.radius;
   const ballRight = ball.x + ball.radius;
   const ballTop = ball.y - ball.radius;
   const ballBottom = ball.y + ball.radius;
 
+  // Get the edges of the brick.
   const brickLeft = brick.x;
   const brickRight = brick.x + brick.width;
   const brickTop = brick.y;
   const brickBottom = brick.y + brick.height;
 
+  // Check if the ball overlaps with the brick horizontally and vertically.
   const overlapsHorizontally = ballRight >= brickLeft && ballLeft <= brickRight;
   const overlapsVertically = ballBottom >= brickTop && ballTop <= brickBottom;
 

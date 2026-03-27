@@ -1,4 +1,4 @@
-import './style.css';
+import '../style/style.css';
 import './buttons.ts';
 import { initializeBallVelocity } from './ball.ts';
 import { gameCanvas, setupCanvasSize } from './canvas.ts';
