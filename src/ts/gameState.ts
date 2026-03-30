@@ -1,13 +1,15 @@
+import { brickLayoutConfig, colorConfig } from './config.ts';
+
 export let viewHeight = window.innerHeight;
 export let viewWidth = window.innerWidth;
 
-export const ballColor = 'red';
-export const padColor = 'blue';
-export const backgroundColor = 'lightgray';
-export const brickColor = 'green';
+export const ballColor = colorConfig.ball;
+export const padColor = colorConfig.pad;
+export const backgroundColor = colorConfig.background;
+export const brickColor = colorConfig.brick;
 
-export const CELL_SIDE_MARGIN_RATIO = 0.2;
-export const CELL_TOP_MARGIN_RATIO = 0.1;
+export const CELL_SIDE_MARGIN_RATIO = brickLayoutConfig.sideMarginRatio;
+export const CELL_TOP_MARGIN_RATIO = brickLayoutConfig.topMarginRatio;
 
 export let isPaused = false;
 
@@ -34,15 +36,15 @@ export const input = {
 };
 
 export const cell = {
-  width: 15,
-  height: 22,
-  marginLeftRight: 10,
-  marginTop: 10,
-  padding: 5,
+  width: brickLayoutConfig.cell.width,
+  height: brickLayoutConfig.cell.height,
+  marginLeftRight: brickLayoutConfig.cell.marginLeftRight,
+  marginTop: brickLayoutConfig.cell.marginTop,
+  padding: brickLayoutConfig.cell.padding,
 };
 
-export const rows = 15;
-export const columns = 20;
+export const rows = brickLayoutConfig.rows;
+export const columns = brickLayoutConfig.columns;
 
 export function setViewportSize(width: number, height: number) {
   viewWidth = width;
