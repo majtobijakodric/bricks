@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+html,
 body {
-    font-family: "JetBrains Mono";
+  min-height: 100%;
+}
+
+body {
+  font-family: "JetBrains Mono";
+  margin: 0;
+  background: black;
+  color: white;
 }
