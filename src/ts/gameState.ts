@@ -1,7 +1,7 @@
-import { brickLayoutConfig, colorConfig } from './config.ts';
+import { brickLayoutConfig, canvasConfig, colorConfig } from './config.ts';
 
-export let viewHeight = window.innerHeight;
-export let viewWidth = window.innerWidth;
+export let canvasHeight = canvasConfig.height;
+export let canvasWidth = canvasConfig.width;
 
 export const ballColor = colorConfig.ball;
 export const padColor = colorConfig.pad;
@@ -14,16 +14,16 @@ export const CELL_TOP_MARGIN_RATIO = brickLayoutConfig.topMarginRatio;
 export let isPaused = false;
 
 export const pad = {
-  x: viewWidth / 2 - 25,
-  y: viewHeight - 50,
+  x: canvasWidth / 2 - 25,
+  y: canvasHeight - 50,
   width: 100,
   height: 20,
   speed: 4,
 };
 
 export const ball = {
-  x: viewWidth / 2,
-  y: viewHeight / 2,
+  x: canvasWidth / 2,
+  y: canvasHeight / 2,
   radius: 10,
   speed: 5,
   dx: 0,
@@ -46,9 +46,10 @@ export const cell = {
 export const rows = brickLayoutConfig.rows;
 export const columns = brickLayoutConfig.columns;
 
-export function setViewportSize(width: number, height: number) {
-  viewWidth = width;
-  viewHeight = height;
+// Keeps the game area fixed.
+export function setViewportSize() {
+  canvasWidth = canvasConfig.width;
+  canvasHeight = canvasConfig.height;
 }
 
 export function setPaused(value: boolean) {

@@ -1,5 +1,5 @@
 import { bricks, removeBrickAtIndex, type Brick } from './bricks.ts';
-import { ball, pad, viewHeight, viewWidth } from './gameState.ts';
+import { ball, pad, canvasHeight, canvasWidth } from './gameState.ts';
 import { playBrickHitSound } from './sound.ts';
 import { updateScore } from './scoring.ts';
 
@@ -24,9 +24,9 @@ export function updateBallPosition() {
 }
 
 export function handleWallCollisions() {
-  if (ball.x + ball.radius >= viewWidth || ball.x - ball.radius <= 0) {
+  if (ball.x + ball.radius >= canvasWidth || ball.x - ball.radius <= 0) {
     ball.dx *= -1;
-    ball.x = Math.max(ball.radius, Math.min(viewWidth - ball.radius, ball.x));
+    ball.x = Math.max(ball.radius, Math.min(canvasWidth - ball.radius, ball.x));
   }
 
   if (ball.y - ball.radius <= 0) {
@@ -34,9 +34,9 @@ export function handleWallCollisions() {
     ball.y = ball.radius;
   }
 
-  if (ball.y + ball.radius >= viewHeight) {
+  if (ball.y + ball.radius >= canvasHeight) {
     ball.dy *= -1;
-    ball.y = viewHeight - ball.radius;
+    ball.y = canvasHeight - ball.radius;
   }
 }
 

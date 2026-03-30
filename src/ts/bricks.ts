@@ -4,8 +4,8 @@ import {
   CELL_TOP_MARGIN_RATIO,
   columns,
   rows,
-  viewHeight,
-  viewWidth,
+  canvasHeight,
+  canvasWidth,
 } from './gameState.ts';
 
 export const BRICK_COLOR_CENTER = '#d9f99d';
@@ -65,9 +65,9 @@ function getBrickTier(row: number, column: number) {
 export function initializeBricks() {
   bricks = [];
 
-  const startX = viewWidth * CELL_SIDE_MARGIN_RATIO;
-  const startY = viewHeight * CELL_TOP_MARGIN_RATIO;
-  const availableWidth = viewWidth * (1 - CELL_SIDE_MARGIN_RATIO * 2);
+  const startX = canvasWidth * CELL_SIDE_MARGIN_RATIO;
+  const startY = canvasHeight * CELL_TOP_MARGIN_RATIO;
+  const availableWidth = canvasWidth * (1 - CELL_SIDE_MARGIN_RATIO * 2);
   const totalHorizontalSpacing = cell.marginLeftRight * (columns - 1);
   const cellWidth = (availableWidth - totalHorizontalSpacing) / columns;
 

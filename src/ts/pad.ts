@@ -1,7 +1,7 @@
-import { pad, viewWidth } from './gameState.ts';
+import { pad, canvasWidth } from './gameState.ts';
 
 function clampPadX(x: number) {
-  return Math.max(0, Math.min(viewWidth - pad.width, x));
+  return Math.max(0, Math.min(canvasWidth - pad.width, x));
 }
 
 export function movePad(x: number) {

@@ -14,16 +14,16 @@ export const colorConfig = {
 };
 
 export const brickLayoutConfig = {
-  sideMarginRatio: 0.2,
-  topMarginRatio: 0.1,
+  sideMarginRatio: 0,
+  topMarginRatio: 0,
   rows: 15,
   columns: 20,
   cell: {
     width: 15,
     height: 22,
-    marginLeftRight: 10,
-    marginTop: 10,
-    padding: 5,
+    marginLeftRight: 3,
+    marginTop: 3,
+    padding: 1,
   },
 };
 

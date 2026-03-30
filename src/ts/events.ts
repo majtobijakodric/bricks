@@ -1,7 +1,7 @@
 import { initializeBallVelocity } from './ball.ts';
 import { gameCanvas, setupCanvasSize } from './canvas.ts';
 import { initializeBricks } from './bricks.ts';
-import { ball, input, pad, setViewportSize, viewHeight, viewWidth } from './gameState.ts';
+import { ball, input, pad, setViewportSize, canvasHeight, canvasWidth } from './gameState.ts';
 import { movePad } from './pad.ts';
 import { renderScene } from './render.ts';
 
@@ -31,14 +31,14 @@ export function setupEventListeners() {
   });
 
   addEventListener('resize', () => {
-    setViewportSize(window.innerWidth, window.innerHeight);
+    setViewportSize();
     setupCanvasSize();
     initializeBricks();
 
-    ball.x = viewWidth / 2;
-    ball.y = viewHeight / 2;
-    pad.x = viewWidth / 2 - pad.width / 2;
-    pad.y = viewHeight - pad.height - 10;
+    ball.x = canvasWidth / 2;
+    ball.y = canvasHeight / 2;
+    pad.x = canvasWidth / 2 - pad.width / 2;
+    pad.y = canvasHeight - pad.height - 10;
 
     initializeBallVelocity();
 
