@@ -14,8 +14,8 @@ export const colorConfig = {
 };
 
 export const brickLayoutConfig = {
-  sideMarginRatio: 0,
-  topMarginRatio: 0,
+  offsetX: 12,
+  offsetY: 12,
   rows: 15,
   columns: 20,
   cell: {

@@ -8,8 +8,8 @@ export const padColor = colorConfig.pad;
 export const backgroundColor = colorConfig.background;
 export const brickColor = colorConfig.brick;
 
-export const CELL_SIDE_MARGIN_RATIO = brickLayoutConfig.sideMarginRatio;
-export const CELL_TOP_MARGIN_RATIO = brickLayoutConfig.topMarginRatio;
+export const BRICK_AREA_OFFSET_X = brickLayoutConfig.offsetX;
+export const BRICK_AREA_OFFSET_Y = brickLayoutConfig.offsetY;
 
 export let isPaused = false;
 

@@ -1,10 +1,9 @@
 import {
+  BRICK_AREA_OFFSET_X,
+  BRICK_AREA_OFFSET_Y,
   cell,
-  CELL_SIDE_MARGIN_RATIO,
-  CELL_TOP_MARGIN_RATIO,
   columns,
   rows,
-  canvasHeight,
   canvasWidth,
 } from './gameState.ts';
 
@@ -65,9 +64,9 @@ function getBrickTier(row: number, column: number) {
 export function initializeBricks() {
   bricks = [];
 
-  const startX = canvasWidth * CELL_SIDE_MARGIN_RATIO;
-  const startY = canvasHeight * CELL_TOP_MARGIN_RATIO;
-  const availableWidth = canvasWidth * (1 - CELL_SIDE_MARGIN_RATIO * 2);
+  const startX = BRICK_AREA_OFFSET_X;
+  const startY = BRICK_AREA_OFFSET_Y;
+  const availableWidth = canvasWidth - BRICK_AREA_OFFSET_X * 2;
   const totalHorizontalSpacing = cell.marginLeftRight * (columns - 1);
   const cellWidth = (availableWidth - totalHorizontalSpacing) / columns;
 
