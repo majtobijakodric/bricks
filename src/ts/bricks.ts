@@ -12,9 +12,9 @@ export const BRICK_COLOR_MIDDLE_RING = '#f43f5e';
 export const BRICK_COLOR_OUTER_RING = '#9ca3af';
 export const BRICK_COLOR_DEFAULT = '#22c55e';
 
-export const BRICK_SCORE_CENTER = 30;
-export const BRICK_SCORE_MIDDLE_RING = 10;
-export const BRICK_SCORE_OUTER_RING = 3;
+export const BRICK_SCORE_CENTER = 5;
+export const BRICK_SCORE_MIDDLE_RING = 3;
+export const BRICK_SCORE_OUTER_RING = 2;
 export const BRICK_SCORE_DEFAULT = 1;
 
 // Distance-band ratios relative to the shorter grid side.

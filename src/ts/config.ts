@@ -14,13 +14,13 @@ export const colorConfig = {
 };
 
 export const brickLayoutConfig = {
-  offsetX: 12,
-  offsetY: 12,
-  rows: 15,
-  columns: 20,
+  offsetX: 18,
+  offsetY: 15,
+  rows: 4,
+  columns: 12,
   cell: {
     width: 15,
-    height: 22,
+    height: 45,
     marginLeftRight: 3,
     marginTop: 3,
     padding: 1,

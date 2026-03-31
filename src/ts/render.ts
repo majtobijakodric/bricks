@@ -1,6 +1,10 @@
+import rockUrl from '../assets/rock.png';
 import { gameCanvas } from './canvas.ts';
 import { bricks } from './bricks.ts';
 import { ball, ballColor, pad, padColor } from './gameState.ts';
+
+const rock = new Image();
+rock.src = rockUrl;
 
 export function renderScene() {
   if (!gameCanvas) {
@@ -29,6 +33,11 @@ export function renderScene() {
 
 function renderBricks(ctx: CanvasRenderingContext2D) {
   bricks.forEach((brick) => {
+    if (rock.complete && rock.naturalWidth > 0) {
+      ctx.drawImage(rock, brick.x, brick.y, brick.width, brick.height);
+      return;
+    }
+
     ctx.fillStyle = brick.color;
     ctx.fillRect(brick.x, brick.y, brick.width, brick.height);
   });
