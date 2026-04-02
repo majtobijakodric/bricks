@@ -8,6 +8,12 @@ import { ball, isPaused, pad } from './gameState.ts';
 import { setPadSpeed } from './pad.ts';
 import { toggleSoundMuted } from './sound.ts';
 
+const swalTheme = {
+  background: '#111827',
+  color: '#ffffff',
+  confirmButtonColor: '#334155',
+};
+
 function renderMuteButtonIcon(button: HTMLButtonElement, muted: boolean) {
   button.replaceChildren(createElement(muted ? VolumeX : Volume2, { width: 18, height: 18 }));
   button.title = muted ? 'Unmute sounds' : 'Mute sounds';
@@ -41,6 +47,7 @@ if (aboutButton) {
     `,
       icon: 'info',
       confirmButtonText: 'Close',
+      ...swalTheme,
     });
 
     if (!wasPaused) {
@@ -89,6 +96,7 @@ if (ballSpeedButton) {
       },
       inputValue: ball.speed,
       showCancelButton: true,
+      ...swalTheme,
     }).then((result) => {
       if (result.isConfirmed) {
         setBallSpeed(Number(result.value));
@@ -110,6 +118,7 @@ if (padSpeedButton) {
       },
       inputValue: pad.speed,
       showCancelButton: true,
+      ...swalTheme,
     }).then((result) => {
       if (result.isConfirmed) {
         setPadSpeed(Number(result.value));

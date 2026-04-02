@@ -5,6 +5,12 @@ import { featureConfig, modeConfig } from './config.ts';
 import { lives } from './gameState.ts';
 import { restartGame } from './gameControls.ts';
 
+const swalTheme = {
+  background: '#111827',
+  color: '#ffffff',
+  confirmButtonColor: '#334155',
+};
+
 const livesText = document.querySelector<HTMLDivElement>('#livesText');
 const scoreText = document.querySelector<HTMLParagraphElement>('#scoreText');
 const timerText = document.querySelector<HTMLParagraphElement>('#timerText');
@@ -90,6 +96,7 @@ export async function showGameOverModal() {
     confirmButtonText: 'Play again',
     allowOutsideClick: false,
     allowEscapeKey: false,
+    ...swalTheme,
   });
 
   restartGame();
