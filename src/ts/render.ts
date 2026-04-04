@@ -28,7 +28,7 @@ export function renderScene() {
   ctx.fillRect(pad.x, pad.y, pad.width, pad.height);
 
   // Ball
-  const size = ball.radius * 3;
+  const size = ball.radius * 5;
   const angle = Math.atan2(ball.dy, ball.dx) + rocketRotationOffset;
 
   ctx.save();

@@ -60,7 +60,7 @@ export function updateFuelTankLevel(remainingRatio: number) {
   }
 
   const clampedRatio = Math.max(0, Math.min(1, remainingRatio));
-  fuelTankFill.style.height = `${clampedRatio * 100}%`;
+  fuelTankFill.style.transform = `scaleY(${clampedRatio})`;
 }
 
 // Sets the first UI values.
