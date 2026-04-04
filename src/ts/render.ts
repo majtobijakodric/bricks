@@ -1,8 +1,8 @@
 import { drawAsteroidTexture } from './asteroidTextures.ts';
 import { gameCanvas } from './canvas.ts';
-import { bricks } from './bricks.ts';
+import { asteroids } from './asteroids.ts';
 import rocketSrc from '../assets/rocket6.png';
-import { ball, pad, padColor } from './gameState.ts';
+import { pad, padColor, rocket } from './gameState.ts';
 
 const rocketImage = new Image();
 rocketImage.src = rocketSrc;
@@ -21,18 +21,18 @@ export function renderScene() {
   }
 
   ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
-  renderBricks(ctx);
+  renderAsteroids(ctx);
 
   // Pad
   ctx.fillStyle = padColor;
   ctx.fillRect(pad.x, pad.y, pad.width, pad.height);
 
-  // Ball
-  const size = ball.radius * 5;
-  const angle = Math.atan2(ball.dy, ball.dx) + rocketRotationOffset;
+  // Rocket
+  const size = rocket.radius * 5;
+  const angle = Math.atan2(rocket.dy, rocket.dx) + rocketRotationOffset;
 
   ctx.save();
-  ctx.translate(ball.x, ball.y);
+  ctx.translate(rocket.x, rocket.y);
   ctx.rotate(angle);
 
   if (rocketImage.complete && rocketImage.naturalWidth > 0) {
@@ -43,7 +43,7 @@ export function renderScene() {
     ctx.drawImage(rocketImage, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
   } else {
     ctx.beginPath();
-    ctx.arc(0, 0, ball.radius, 0, Math.PI * 2);
+    ctx.arc(0, 0, rocket.radius, 0, Math.PI * 2);
     ctx.fillStyle = 'red';
     ctx.fill();
     ctx.closePath();
@@ -52,17 +52,17 @@ export function renderScene() {
   ctx.restore();
 }
 
-function renderBricks(ctx: CanvasRenderingContext2D) {
-  bricks.forEach((brick) => {
+function renderAsteroids(ctx: CanvasRenderingContext2D) {
+  asteroids.forEach((asteroid) => {
     drawAsteroidTexture(
       ctx,
-      brick.shapeIndex,
-      brick.material,
-      brick.textureVariant,
-      brick.x,
-      brick.y,
-      brick.width,
-      brick.height,
+      asteroid.shapeIndex,
+      asteroid.material,
+      asteroid.textureVariant,
+      asteroid.x,
+      asteroid.y,
+      asteroid.width,
+      asteroid.height,
     );
   });
 }

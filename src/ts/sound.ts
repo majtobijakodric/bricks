@@ -3,7 +3,7 @@ import * as Tone from 'tone';
 let isMuted = false;
 let isAudioReady = false;
 
-const brickHitSound = new Tone.MetalSynth({
+const asteroidHitSound = new Tone.MetalSynth({
   envelope: {
     attack: 0.001,
     decay: 0.08,
@@ -16,7 +16,7 @@ const brickHitSound = new Tone.MetalSynth({
   volume: -34,
 }).toDestination();
 
-const heartLoseSound = new Tone.Synth({
+const fuelLoseSound = new Tone.Synth({
   oscillator: {
     type: 'triangle',
   },
@@ -64,20 +64,20 @@ export function toggleSoundMuted() {
   return isMuted;
 }
 
-export function playBrickHitSound() {
+export function playAsteroidHitSound() {
   if (isMuted || !isAudioReady) {
     return;
   }
 
-  brickHitSound.triggerAttackRelease('C3', '32n');
+  asteroidHitSound.triggerAttackRelease('C3', '32n');
 }
 
-export function playHeartLoseSound() {
+export function playFuelLoseSound() {
   if (isMuted || !isAudioReady) {
     return;
   }
 
-  heartLoseSound.triggerAttackRelease('G2', '8n');
+  fuelLoseSound.triggerAttackRelease('G2', '8n');
 }
 
 export function playButtonClickSound() {

@@ -1,10 +1,10 @@
 import Swal from 'sweetalert2';
 import { createElement, Info, Pause, Play, Volume2, VolumeX } from 'lucide';
 
-import { setBallSpeed } from './ball.ts';
-import { aboutButton, ballSpeedButton, muteButton, padSpeedButton, pauseButton } from './canvas.ts';
+import { setRocketSpeed } from './rocket.ts';
+import { aboutButton, muteButton, padSpeedButton, pauseButton, rocketSpeedButton } from './canvas.ts';
 import { pauseGame, resumeGame } from './gameControls.ts';
-import { ball, isPaused, pad } from './gameState.ts';
+import { isPaused, pad, rocket } from './gameState.ts';
 import { setPadSpeed } from './pad.ts';
 import { prepareAudio, playButtonClickSound, toggleSoundMuted } from './sound.ts';
 
@@ -92,26 +92,26 @@ if (muteButton) {
   });
 }
 
-if (ballSpeedButton) {
-  ballSpeedButton.addEventListener('click', async () => {
+if (rocketSpeedButton) {
+  rocketSpeedButton.addEventListener('click', async () => {
     await prepareAudio();
     playButtonClickSound();
 
     Swal.fire({
-      title: 'Set Ball Speed',
+      title: 'Set Rocket Speed',
       input: 'range',
-      inputLabel: 'Ball Speed',
+      inputLabel: 'Rocket Speed',
       inputAttributes: {
         min: '1',
         max: '100',
         step: '1',
       },
-      inputValue: ball.speed,
+      inputValue: rocket.speed,
       showCancelButton: true,
       ...swalTheme,
     }).then((result) => {
       if (result.isConfirmed) {
-        setBallSpeed(Number(result.value));
+        setRocketSpeed(Number(result.value));
       }
     });
   });

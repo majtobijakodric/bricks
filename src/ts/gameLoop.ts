@@ -1,9 +1,10 @@
 import { gameCanvas } from './canvas.ts';
-import { handleBrickCollisions, handlePadCollision, handleWallCollisions, updateBallPosition } from './ball.ts';
-import { addBarElapsedTime, barDurationMs, barElapsedMs, input, isGameOver, isPaused, pad } from './gameState.ts';
+import { handleAsteroidCollisions, handlePadCollision, handleWallCollisions, updateRocketPosition } from './rocket.ts';
+import { featureConfig } from './config.ts';
+import { fuel, input, isGameOver, isPaused, loseFuel, pad, setGameOver } from './gameState.ts';
 import { movePadBy } from './pad.ts';
 import { renderScene } from './render.ts';
-import { updateFuelTankLevel } from './ui.ts';
+import { showGameOverModal, updateFuelTankLevel } from './ui.ts';
 
 let lastActiveTimestamp: number | null = null;
 
@@ -25,14 +26,12 @@ function animateFrame(timestamp: number) {
     return;
   }
 
-  if (lastActiveTimestamp === null) {
-    lastActiveTimestamp = timestamp;
-  } else {
-    addBarElapsedTime(timestamp - lastActiveTimestamp);
-    lastActiveTimestamp = timestamp;
-  }
+  const deltaMs = lastActiveTimestamp === null ? 0 : Math.min(timestamp - lastActiveTimestamp, 100);
+  lastActiveTimestamp = timestamp;
 
-  updateFuelTankLevel(1 - barElapsedMs / barDurationMs);
+  if (deltaMs > 0) {
+    loseFuel((deltaMs / 1000) * featureConfig.fuelBurnPerSecond);
+  }
 
   if (input.left) {
     movePadBy(-pad.speed);
@@ -42,8 +41,17 @@ function animateFrame(timestamp: number) {
     movePadBy(pad.speed);
   }
 
-  updateBallPosition();
+  updateRocketPosition();
   handleWallCollisions();
+
+  updateFuelTankLevel(fuel / featureConfig.maxFuel);
+
+  if (fuel === 0) {
+    setGameOver(true);
+    renderScene();
+    void showGameOverModal();
+    return;
+  }
 
   if (isGameOver) {
     renderScene();
@@ -51,7 +59,7 @@ function animateFrame(timestamp: number) {
   }
 
   handlePadCollision();
-  handleBrickCollisions();
+  handleAsteroidCollisions();
 
   renderScene();
   requestAnimationFrame(animateFrame);

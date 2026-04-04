@@ -7,13 +7,13 @@ export const canvasConfig = {
 };
 
 export const colorConfig = {
-  ball: 'red',
+  rocket: 'red',
   pad: 'blue',
   background: 'lightgray',
-  brick: 'green',
+  asteroid: 'green',
 };
 
-export const brickLayoutConfig = {
+export const asteroidLayoutConfig = {
   offsetX: 18,
   offsetY: 15,
   rows: 4,
@@ -31,22 +31,22 @@ export const modeConfig = {
   defaultMode: 'medium',
   values: {
     easy: {
-      ballSpeed: 4,
+      rocketSpeed: 4,
       padSpeed: 3,
       speedMultiplier: 0,
     },
     medium: {
-      ballSpeed: 5,
+      rocketSpeed: 5,
       padSpeed: 4,
       speedMultiplier: 0.02,
     },
     hard: {
-      ballSpeed: 7,
+      rocketSpeed: 7,
       padSpeed: 6,
       speedMultiplier: 0.05,
     },
     experimental: {
-      ballSpeed: 5,
+      rocketSpeed: 5,
       padSpeed: 4,
       speedMultiplier: 0,
     },
@@ -54,7 +54,7 @@ export const modeConfig = {
 } as const;
 
 export const soundConfig = {
-  brickHit: 'brick-hit.mp3',
+  asteroidHit: 'brick-hit.mp3',
   bonusHit: 'bonus-hit.mp3',
   paddleHit: 'paddle-hit.mp3',
   gameOver: 'game-over.mp3',
@@ -62,14 +62,11 @@ export const soundConfig = {
   buttonClick: 'button-click.mp3',
 };
 
-export const barConfig = {
-  drainDurationSeconds: 40,
-};
-
 export const featureConfig = {
-  useBonusBricks: true,
+  useBonusAsteroids: true,
   enableSound: true,
   enableDeath: true,
-  maxLives: 5,
+  maxFuel: 5,
+  fuelBurnPerSecond: 0.1,
   deathBoundaryOffset: 80,
 };

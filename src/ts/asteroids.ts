@@ -1,16 +1,9 @@
-import {
-  BRICK_AREA_OFFSET_X,
-  BRICK_AREA_OFFSET_Y,
-  cell,
-  columns,
-  rows,
-  canvasWidth,
-} from './gameState.ts';
+import { ASTEROID_AREA_OFFSET_X, ASTEROID_AREA_OFFSET_Y, cell, columns, rows, canvasWidth } from './gameState.ts';
 import { asteroidShapes } from './asteroidShapes.ts';
 
 export type AsteroidMaterial = 'red' | 'silver' | 'iron' | 'rock';
 
-export type Brick = {
+export type Asteroid = {
   x: number;
   y: number;
   width: number;
@@ -20,7 +13,7 @@ export type Brick = {
   textureVariant: number;
 };
 
-export let bricks: Brick[] = [];
+export let asteroids: Asteroid[] = [];
 
 const MATERIAL_RARITIES: Array<{ material: AsteroidMaterial; weight: number }> = [
   { material: 'red', weight: 4 },
@@ -52,12 +45,12 @@ function pickMaterial() {
   return MATERIAL_RARITIES[MATERIAL_RARITIES.length - 1];
 }
 
-export function initializeBricks() {
-  bricks = [];
+export function initializeAsteroids() {
+  asteroids = [];
 
-  const startX = BRICK_AREA_OFFSET_X;
-  const startY = BRICK_AREA_OFFSET_Y;
-  const availableWidth = canvasWidth - BRICK_AREA_OFFSET_X * 2;
+  const startX = ASTEROID_AREA_OFFSET_X;
+  const startY = ASTEROID_AREA_OFFSET_Y;
+  const availableWidth = canvasWidth - ASTEROID_AREA_OFFSET_X * 2;
   const totalHorizontalSpacing = cell.marginLeftRight * (columns - 1);
   const cellWidth = (availableWidth - totalHorizontalSpacing) / columns;
 
@@ -65,7 +58,7 @@ export function initializeBricks() {
     for (let j = 0; j < columns; j++) {
       const material = pickMaterial();
 
-      bricks.push({
+      asteroids.push({
         x: startX + (j * (cellWidth + cell.marginLeftRight)),
         y: startY + (i * (cell.height + cell.marginTop)),
         width: cellWidth,
@@ -78,6 +71,6 @@ export function initializeBricks() {
   }
 }
 
-export function removeBrickAtIndex(index: number) {
-  bricks.splice(index, 1);
+export function removeAsteroidAtIndex(index: number) {
+  asteroids.splice(index, 1);
 }

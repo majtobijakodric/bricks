@@ -1,22 +1,20 @@
-import { barConfig, brickLayoutConfig, canvasConfig, colorConfig, featureConfig } from './config.ts';
+import { asteroidLayoutConfig, canvasConfig, colorConfig, featureConfig } from './config.ts';
 
 export let canvasHeight = canvasConfig.height;
 export let canvasWidth = canvasConfig.width;
 
-export const ballColor = colorConfig.ball;
+export const rocketColor = colorConfig.rocket;
 export const padColor = colorConfig.pad;
 export const backgroundColor = colorConfig.background;
-export const brickColor = colorConfig.brick;
+export const asteroidColor = colorConfig.asteroid;
 
-export const BRICK_AREA_OFFSET_X = brickLayoutConfig.offsetX;
-export const BRICK_AREA_OFFSET_Y = brickLayoutConfig.offsetY;
+export const ASTEROID_AREA_OFFSET_X = asteroidLayoutConfig.offsetX;
+export const ASTEROID_AREA_OFFSET_Y = asteroidLayoutConfig.offsetY;
 
 export let isPaused = false;
 export let isGameOver = false;
-export let lives = featureConfig.maxLives;
+export let fuel = featureConfig.maxFuel;
 export let hasHandledBottomMiss = false;
-export let barElapsedMs = 0;
-export const barDurationMs = barConfig.drainDurationSeconds * 1000;
 
 export const pad = {
   x: canvasWidth / 2 - 25,
@@ -26,7 +24,7 @@ export const pad = {
   speed: 4,
 };
 
-export const ball = {
+export const rocket = {
   x: canvasWidth / 2,
   y: canvasHeight / 2,
   radius: 10,
@@ -41,15 +39,15 @@ export const input = {
 };
 
 export const cell = {
-  width: brickLayoutConfig.cell.width,
-  height: brickLayoutConfig.cell.height,
-  marginLeftRight: brickLayoutConfig.cell.marginLeftRight,
-  marginTop: brickLayoutConfig.cell.marginTop,
-  padding: brickLayoutConfig.cell.padding,
+  width: asteroidLayoutConfig.cell.width,
+  height: asteroidLayoutConfig.cell.height,
+  marginLeftRight: asteroidLayoutConfig.cell.marginLeftRight,
+  marginTop: asteroidLayoutConfig.cell.marginTop,
+  padding: asteroidLayoutConfig.cell.padding,
 };
 
-export const rows = brickLayoutConfig.rows;
-export const columns = brickLayoutConfig.columns;
+export const rows = asteroidLayoutConfig.rows;
+export const columns = asteroidLayoutConfig.columns;
 
 // Resets the fixed canvas size.
 export function resetCanvasSize() {
@@ -57,10 +55,10 @@ export function resetCanvasSize() {
   canvasHeight = canvasConfig.height;
 }
 
-// Places the ball just above the paddle.
-export function resetBallPosition() {
-  ball.x = pad.x + pad.width / 2;
-  ball.y = pad.y - ball.radius - 5;
+// Places the rocket just above the paddle.
+export function resetRocketPosition() {
+  rocket.x = pad.x + pad.width / 2;
+  rocket.y = pad.y - rocket.radius - 5;
 }
 
 // Puts the paddle back at the bottom center.
@@ -77,12 +75,12 @@ export function setGameOver(value: boolean) {
   isGameOver = value;
 }
 
-export function loseLife() {
-  lives = Math.max(0, lives - 1);
+export function loseFuel(amount = 1) {
+  fuel = Math.max(0, fuel - amount);
 }
 
-export function resetLives() {
-  lives = featureConfig.maxLives;
+export function resetFuel() {
+  fuel = featureConfig.maxFuel;
 }
 
 export function resetBottomMissState() {
@@ -93,15 +91,7 @@ export function markBottomMissHandled() {
   hasHandledBottomMiss = true;
 }
 
-export function resetBarTimer() {
-  barElapsedMs = 0;
-}
-
-export function addBarElapsedTime(deltaMs: number) {
-  barElapsedMs = Math.min(barDurationMs, barElapsedMs + deltaMs);
-}
-
-export function setBallVelocity(x: number, y: number) {
-  ball.dx = x;
-  ball.dy = y;
+export function setRocketVelocity(x: number, y: number) {
+  rocket.dx = x;
+  rocket.dy = y;
 }

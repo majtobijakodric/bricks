@@ -1,5 +1,5 @@
 import { asteroidShapes } from './asteroidShapes.ts';
-import type { AsteroidMaterial } from './bricks.ts';
+import type { AsteroidMaterial } from './asteroids.ts';
 
 type Palette = {
   base: string;
