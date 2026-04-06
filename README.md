@@ -79,7 +79,12 @@ package.json             # Scripts and dependencies
 - The repository is configured for GitHub Pages with the `/the-bricks/` base path in `vite.config.ts`.
 - Difficulty presets exist in `src/ts/config.ts`, but the current UI only displays the default mode.
 
-## How To Use It
+### Textures
+ [Asteroids](https://dustdfg.itch.io/pixel-art-top-down-rocks-pack?download)
+ <br>
+ [Planets planets](https://deep-fold.itch.io/pixel-planet-generator)
+ <br>
+ [Pixel space](https://deep-fold.itch.io/space-background-generator)
 
 ### Clone / Install
 
