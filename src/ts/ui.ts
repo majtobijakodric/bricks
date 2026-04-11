@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 import { createElement, Info, Pause, Play } from 'lucide';
 
 import { activateAbility, getAbilityIconSource, getAbilityState, subscribeToAbilityState } from './abilities.ts';
-import { abilityMessage, aboutButton, blueAbilityButton, blueAbilityCount, blueAbilityIcon, padSpeedButton, pauseButton, redAbilityButton, redAbilityCount, redAbilityIcon, rocketSpeedButton } from './canvas.ts';
+import { abilityMessage, aboutButton, blueAbilityButton, blueAbilityCount, blueAbilityIcon, modeButton, padSpeedButton, pauseButton, redAbilityButton, redAbilityCount, redAbilityIcon, rocketSpeedButton } from './canvas.ts';
 import { featureConfig, modeConfig } from './config.ts';
 import { launchRocketFromPad, movePadBy, setPadSpeed, setRocketSpeed } from './entities.ts';
 import { fuel, input, isGameOver, isPaused, pad, pauseGame, restartGame, resumeGame, rocket, isRocketLaunched } from './game.ts';
@@ -14,11 +14,23 @@ const swalTheme = {
   confirmButtonColor: '#334155',
 };
 
-const modeText = document.querySelector<HTMLParagraphElement>('#modeText');
 const fuelTankFill = document.querySelector<HTMLDivElement>('#fuelTankFill');
 
 let gameOverShown = false;
 let listenersBound = false;
+let currentMode: keyof typeof modeConfig.values = modeConfig.defaultMode;
+
+function updateExperimentalControls() {
+  const isExperimental = currentMode === 'experimental';
+
+  if (rocketSpeedButton) {
+    rocketSpeedButton.hidden = !isExperimental;
+  }
+
+  if (padSpeedButton) {
+    padSpeedButton.hidden = !isExperimental;
+  }
+}
 
 function updateAbilityUi() {
   const state = getAbilityState();
@@ -78,13 +90,58 @@ function renderPauseButtonIcon(button: HTMLButtonElement, paused: boolean) {
   button.setAttribute('aria-label', button.title);
 }
 
-export function updateModeText(mode: string) {
-  if (!modeText) {
-    return;
-  }
+function applyMode(mode: keyof typeof modeConfig.values) {
+  const settings = modeConfig.values[mode];
+  currentMode = mode;
+  setPadSpeed(settings.padSpeed);
+  setRocketSpeed(settings.rocketSpeed);
+  updateExperimentalControls();
+}
 
-  const label = mode.charAt(0).toUpperCase() + mode.slice(1);
-  modeText.textContent = `Mode: ${label}`;
+async function openModeMenu() {
+  const options = ['easy', 'medium', 'hard', 'experimental'] as const;
+  const optionButtons = options.map((mode) => {
+    const label = mode.charAt(0).toUpperCase() + mode.slice(1);
+    const isSelected = currentMode === mode;
+    const experimentalClass = mode === 'experimental' ? ' is-experimental' : '';
+
+    return `
+      <button
+        type="button"
+        class="swal2-styled mode-option${isSelected ? ' is-selected' : ''}${experimentalClass}"
+        data-mode="${mode}"
+      >
+        ${label}
+      </button>
+    `;
+  }).join('');
+
+  const result = await Swal.fire({
+    title: 'Select Mode',
+    html: `<div class="mode-option-list">${optionButtons}</div>`,
+    showConfirmButton: false,
+    showCloseButton: true,
+    ...swalTheme,
+    didOpen: (popup) => {
+      const buttons = popup.querySelectorAll<HTMLButtonElement>('[data-mode]');
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const mode = button.dataset.mode as keyof typeof modeConfig.values | undefined;
+
+          if (!mode) {
+            return;
+          }
+
+          applyMode(mode);
+          restartGame();
+          Swal.close();
+        });
+      });
+    },
+  });
+
+  return result;
 }
 
 export function updatePauseButtonText(isPausedValue: boolean) {
@@ -151,10 +208,16 @@ function bindKeyboardListeners() {
 }
 
 export function initializeUi() {
-  updateModeText(modeConfig.defaultMode);
+  applyMode(modeConfig.defaultMode);
   updatePauseButtonText(false);
   updateFuelTankLevel(1);
   updateAbilityUi();
+
+  if (modeButton) {
+    modeButton.addEventListener('click', () => {
+      void openModeMenu();
+    });
+  }
 
   if (redAbilityButton && redAbilityIcon) {
     redAbilityIcon.src = getAbilityIconSource('red');

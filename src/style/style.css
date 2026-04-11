@@ -90,6 +90,47 @@ body {
   transform: translateY(-1px);
 }
 
+.mode-option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.mode-option {
+  width: 100%;
+  margin: 0;
+  border: 1px solid rgb(71 85 105 / 0.8);
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, rgb(30 41 59 / 0.96), rgb(15 23 42 / 0.96));
+  color: white;
+  font-weight: 600;
+}
+
+.mode-option:hover {
+  background: linear-gradient(180deg, rgb(51 65 85 / 0.98), rgb(15 23 42 / 0.98));
+}
+
+.mode-option.is-selected {
+  border-color: rgb(148 163 184 / 0.95);
+  box-shadow: 0 0 0 1px rgb(148 163 184 / 0.24);
+}
+
+.mode-option.is-experimental {
+  border-color: rgb(168 85 247 / 0.75);
+  background: linear-gradient(180deg, rgb(88 28 135 / 0.95), rgb(49 18 93 / 0.96));
+  color: rgb(245 243 255);
+}
+
+.mode-option.is-experimental:hover {
+  background: linear-gradient(180deg, rgb(109 40 217 / 0.96), rgb(76 29 149 / 0.96));
+}
+
+.mode-option.is-experimental.is-selected {
+  border-color: rgb(216 180 254 / 0.95);
+  box-shadow: 0 0 0 1px rgb(216 180 254 / 0.28), 0 0 18px rgb(168 85 247 / 0.2);
+}
+
 .ability-button:disabled {
   cursor: default;
 }

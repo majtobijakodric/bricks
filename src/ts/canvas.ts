@@ -10,6 +10,7 @@ export const blueAbilityButton = document.querySelector<HTMLButtonElement>('#blu
 export const blueAbilityIcon = document.querySelector<HTMLImageElement>('#blueAbilityIcon');
 export const blueAbilityCount = document.querySelector<HTMLSpanElement>('#blueAbilityCount');
 export const pauseButton = document.querySelector<HTMLButtonElement>('#pauseButton');
+export const modeButton = document.querySelector<HTMLButtonElement>('#modeButton');
 export const rocketSpeedButton = document.querySelector<HTMLButtonElement>('#rocketSpeedButton');
 export const padSpeedButton = document.querySelector<HTMLButtonElement>('#padSpeedButton');
 
