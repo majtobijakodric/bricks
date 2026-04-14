@@ -99,6 +99,10 @@ function updateAbilityUi() {
 }
 
 function handleAbilityActivation(color) {
+  if (isPaused || isGameOver) {
+    return
+  }
+
   if (!activateAbility(color)) {
     return
   }
@@ -194,6 +198,10 @@ export function updateFuelTankLevel(remainingRatio) {
 function bindKeyboardListeners() {
   addEventListener('keydown', (event) => {
     if (isGameOver) {
+      return
+    }
+
+    if (isPaused) {
       return
     }
 
