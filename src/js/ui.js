@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
-import { createElement, Info, Pause, Play } from 'lucide'
+import { CircleHelp, createElement, Info, Pause, Play } from 'lucide'
 import { activateAbility, getAbilityIconSource, getAbilityState, subscribeToAbilityState } from './abilities.js'
-import { abilityMessage, aboutButton, blueAbilityButton, blueAbilityCount, blueAbilityIcon, modeButton, padSpeedButton, pauseButton, redAbilityButton, redAbilityCount, redAbilityIcon, rocketSpeedButton } from './canvas.js'
+import { abilityMessage, aboutButton, blueAbilityButton, blueAbilityCount, blueAbilityIcon, howToPlayButton, modeButton, padSpeedButton, pauseButton, redAbilityButton, redAbilityCount, redAbilityIcon, rocketSpeedButton } from './canvas.js'
 import { featureConfig, modeConfig } from './config.js'
 import { launchRocketFromPad, movePadBy, setPadSpeed, setRocketSpeed } from './entities.js'
 import { fuel, input, isGameOver, isPaused, isRocketLaunched, pad, pauseGame, restartGame, resumeGame, rocket } from './game.js'
@@ -85,6 +85,12 @@ function renderAboutButtonIcon(button) {
   button.replaceChildren(createElement(Info, { width: 18, height: 18 }))
   button.title = 'About'
   button.setAttribute('aria-label', 'About')
+}
+
+function renderHowToPlayButtonIcon(button) {
+  button.replaceChildren(createElement(CircleHelp, { width: 18, height: 18 }))
+  button.title = 'How to play'
+  button.setAttribute('aria-label', 'How to play')
 }
 
 function renderPauseButtonIcon(button, paused) {
@@ -255,7 +261,33 @@ export function initializeUi() {
       <p>Author: Maj Tobija Kodrič</p>
       <a href="https://github.com/majtobijakodric/the-bricks" target="_blank" class="text-blue-500 hover:underline">GitHub</a>
     `,
-        icon: 'info',
+        confirmButtonText: 'Close',
+        ...swalTheme,
+      })
+
+      if (!wasPaused) {
+        resumeGame()
+      }
+    })
+  }
+
+  if (howToPlayButton) {
+    renderHowToPlayButtonIcon(howToPlayButton)
+
+    howToPlayButton.addEventListener('click', async () => {
+      const wasPaused = isPaused
+      pauseGame()
+
+      await Swal.fire({
+        title: 'How to Play',
+        html: `
+      <div class="space-y-3 text-left text-sm leading-6">
+        <p>Move the pad to keep the rocket in play and clear the asteroid field.</p>
+        <p><strong>Controls:</strong> use the left and right arrow keys to move.</p>
+        <p>Collect red and blue rock charges, then use the ability buttons on the left when they light up.</p>
+        <p>Watch the fuel tank. If fuel hits zero or the rocket slips past the pad, the run ends.</p>
+      </div>
+    `,
         confirmButtonText: 'Close',
         ...swalTheme,
       })
