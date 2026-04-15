@@ -1,5 +1,12 @@
 @import "tailwindcss";
-@import "@fontsource/orbitron";
+
+@font-face {
+  font-family: "Stepalange";
+  src: url("../assets/fonts/stepalange/Stepalange.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 html,
 body {
@@ -7,7 +14,9 @@ body {
 }
 
 body {
-  font-family: "Orbitron", "JetBrains Mono", monospace;
+  font-family: "Stepalange", "JetBrains Mono", monospace;
+  font-size: 18px;
+  line-height: 1.4;
   margin: 0;
   background-color: #050816;
   background-image: url("../assets/background/Space_Background.png");
