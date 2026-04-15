@@ -1,6 +1,5 @@
 import rocketSrc from '../assets/rockets/rocketBlue.png'
 import padSrc from '../assets/pad/pad1.png'
-
 import { gameCanvas } from './canvas.js'
 import { rocketSpriteConfig } from './config.js'
 import { asteroids, drawAsteroidSprite } from './entities.js'
