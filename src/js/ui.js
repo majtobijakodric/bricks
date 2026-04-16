@@ -36,7 +36,7 @@ function getStoredScores() {
 
     return parsedScores.flatMap((entry) => {
       if (Number.isFinite(entry)) {
-        return [{ score: Number(entry), timestamp: null }]
+        return [{ score: Number(entry), timestamp: null, didFinish: false }]
       }
 
       if (!entry || typeof entry !== 'object' || !Number.isFinite(entry.score)) {
@@ -46,6 +46,7 @@ function getStoredScores() {
       return [{
         score: Number(entry.score),
         timestamp: Number.isFinite(entry.timestamp) ? Number(entry.timestamp) : null,
+        didFinish: entry.didFinish === true,
       }]
     })
   } catch {
@@ -53,9 +54,9 @@ function getStoredScores() {
   }
 }
 
-function saveScore(score) {
+function saveScore(score, didFinish = false) {
   const scores = getStoredScores()
-  scores.unshift({ score, timestamp: Date.now() })
+  scores.unshift({ score, timestamp: Date.now(), didFinish })
   localStorage.setItem(scoreHistoryStorageKey, JSON.stringify(scores))
 }
 
@@ -96,7 +97,10 @@ function renderScoreHistoryMarkup() {
       <li class="score-history-item">
         <div class="score-history-copy">
           <span>Run ${index + 1}</span>
-          <span class="score-history-date">${formatRunTimestamp(run.timestamp)}</span>
+          <div class="score-history-meta">
+            <span class="score-history-date">${formatRunTimestamp(run.timestamp)}</span>
+            <span class="score-history-status${run.didFinish ? ' is-finished' : ''}">${run.didFinish ? 'Finished' : 'Did not finish'}</span>
+          </div>
         </div>
         <strong>${run.score}</strong>
       </li>
@@ -509,7 +513,7 @@ export async function showGameOverModal() {
   }
 
   gameOverShown = true
-  saveScore(currentScore)
+  saveScore(currentScore, false)
 
   await Swal.fire({
     title: 'You are out of fuel.',

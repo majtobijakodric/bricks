@@ -238,9 +238,34 @@ body {
   gap: 0.15rem;
 }
 
+.score-history-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
 .score-history-date {
   color: rgb(148 163 184);
   font-size: 0.8rem;
+}
+
+.score-history-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid rgb(248 113 113 / 0.35);
+  border-radius: 9999px;
+  background: rgb(127 29 29 / 0.35);
+  color: rgb(254 202 202);
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.score-history-status.is-finished {
+  border-color: rgb(74 222 128 / 0.35);
+  background: rgb(20 83 45 / 0.35);
+  color: rgb(187 247 208);
 }
 
 .score-history-item + .score-history-item {
