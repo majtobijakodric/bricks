@@ -8,14 +8,13 @@
   font-display: swap;
 }
 
-html,
 body {
   min-height: 100%;
 }
 
 body {
   font-family: "Stepalange", "JetBrains Mono", monospace;
-  font-size: 18px;
+  font-size: 22px;
   line-height: 1.4;
   margin: 0;
   background-color: #050816;
@@ -25,6 +24,24 @@ body {
   background-size: cover;
   color: white;
   overflow: hidden;
+}
+
+.planet-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.planet-background__planet {
+  position: absolute;
+  display: block;
+  object-fit: contain;
+  opacity: 0.78;
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 0 18px rgb(56 189 248 / 0.12));
 }
 
 #app {
@@ -47,8 +64,8 @@ body {
 }
 
 .ability-message {
-  flex: 0 1 0;
-  width: 0;
+  flex: 0 1 auto;
+  width: auto;
   min-width: 0;
   max-width: 280px;
   margin: 0;
@@ -64,11 +81,11 @@ body {
   transform: translateX(6px);
   transition: opacity 160ms ease, transform 160ms ease;
   pointer-events: none;
+  white-space: nowrap;
 }
 
 .ability-message.is-visible {
-  flex-basis: 180px;
-  width: auto;
+  flex-basis: auto;
   opacity: 1;
   transform: translateX(0);
 }
@@ -142,6 +159,50 @@ body {
   box-shadow: 0 0 0 1px rgb(216 180 254 / 0.28), 0 0 18px rgb(168 85 247 / 0.2);
 }
 
+.swal2-popup .swal2-range {
+  display: block;
+  width: calc(100% - 1rem);
+  margin: 1rem 1rem 1rem;
+  background: transparent;
+  accent-color: rgb(168 85 247);
+}
+
+.swal2-popup .swal2-range::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: rgb(15 23 42);
+}
+
+.swal2-popup .swal2-range::-moz-range-track {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: rgb(15 23 42);
+}
+
+.swal2-popup .swal2-range::-webkit-slider-thumb {
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.25rem;
+  border: 2px solid #111827;
+  border-radius: 9999px;
+  background: rgb(168 85 247);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.swal2-popup .swal2-range::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #111827;
+  border-radius: 9999px;
+  background: rgb(168 85 247);
+}
+
+.swal2-popup .swal2-range-output {
+  margin-left: 0.5rem;
+  color: #f8fafc;
+}
+
 .score-history-panel {
   display: flex;
   flex-direction: column;
@@ -179,7 +240,7 @@ body {
 
 .score-history-date {
   color: rgb(148 163 184);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
 }
 
 .score-history-item + .score-history-item {

@@ -460,7 +460,6 @@ export function initializeUi() {
       Swal.fire({
         title: 'Set Rocket Speed',
         input: 'range',
-        inputLabel: 'Rocket Speed',
         inputAttributes: {
           min: '1',
           max: '100',
@@ -482,7 +481,6 @@ export function initializeUi() {
       Swal.fire({
         title: 'Set Pad Speed',
         input: 'range',
-        inputLabel: 'Pad Speed',
         inputAttributes: {
           min: '1',
           max: '40',
