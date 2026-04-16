@@ -1,22 +1,24 @@
 # The Bricks
 
-A space-themed brick breaker where you pilot a rocket through asteroid fields. Destroy asteroids, collect abilities, and manage your fuel reserves to survive.
+A space-themed brick breaker where you guide a rocket through an asteroid field, manage limited fuel, collect charged abilities, and clear the entire sector to win.
 
 ## Features
 
-- **Asteroid Field Gameplay** - Blast through procedurally-arranged asteroids with a rocket that bounces and ricochets
-- **Fuel System** - Your fuel depletes over time and when the rocket escapes into space; gray asteroids restore fuel
-- **Ability System** - Blue and red asteroids charge abilities that trigger random effects (pad speed boosts, fuel pauses, rocket stabilization)
-- **Difficulty Modes** - Easy, Medium, Hard, and Experimental presets control rocket/pad speed and fuel drain rate
-- **Sprite-Based Visuals** - Asteroids rendered from pixel art sprite sheets with weighted color distribution
-- **Space Aesthetic** - Custom fonts (Orbitron, Oxanium, JetBrains Mono) and space background
+- **Asteroid Field Gameplay** - Bounce the rocket off the pad and clear a 4 x 12 asteroid layout.
+- **Fuel System** - Fuel drains during flight and when the rocket drops below the play area; gray asteroids restore fuel.
+- **Ability System** - Blue and red asteroids charge abilities that apply random temporary gameplay effects.
+- **Difficulty Modes** - Easy, Medium, Hard, and Experimental presets change rocket and pad speed.
+- **Experimental Controls** - Experimental mode exposes SweetAlert sliders for manual rocket and pad speed tuning.
+- **Score History** - Runs are saved in local storage with score, timestamp, finish status, and difficulty.
+- **Win and Loss Modals** - SweetAlert2 is used for score history, settings, game over, and victory screens.
+- **Sprite-Based Visuals** - Pixel-art asteroid, rocket, and pad sprites sit on top of a space background with floating planets.
 
 ## Tech Stack
 
 - **Build**: Vite
 - **Styling**: Tailwind CSS v4, custom CSS
-- **UI**: Lucide icons, SweetAlert2
-- **Fonts**: Orbitron, Oxanium, JetBrains Mono
+- **UI**: SweetAlert2, Lucide icons
+- **Fonts**: Stepalange, JetBrains Mono
 - **Deployment**: GitHub Pages
 
 ## Project Structure
@@ -53,13 +55,14 @@ package.json        # Scripts and dependencies
 | Blue ability button | Activate blue ability |
 | Red ability button | Activate red ability |
 | Pause button | Pause / resume game |
+| Score button | Open score history |
+| Mode button | Change difficulty |
 
 ## Ability Effects
 
 **Red Ability (offense/defense)**:
 - Pause fuel drain for 5 seconds
 - Restore 1 fuel unit
-- Expand pad width for 8 seconds
 - Slow fuel drain for 8 seconds
 
 **Blue Ability (mobility/chaos)**:
@@ -73,10 +76,25 @@ package.json        # Scripts and dependencies
 
 | Type | Chance | Effect |
 |------|--------|--------|
-| Normal | 70% | Destroys asteroid |
+| Normal | 60% | Destroys asteroid |
 | Gray | 18% | Destroys asteroid, restores fuel |
-| Blue | 8% | Destroys asteroid, charges blue ability |
-| Red | 4% | Destroys asteroid, charges red ability |
+| Blue | 14% | Destroys asteroid, charges blue ability |
+| Red | 8% | Destroys asteroid, charges red ability |
+
+## Run Tracking
+
+- Every finished or failed run is stored in local storage.
+- Score history shows score, timestamp, whether the run was finished, and the difficulty used for that run.
+- Older saved entries without metadata are treated as `Did not finish` and `Unknown` difficulty.
+
+## Difficulty Modes
+
+| Mode | Rocket Speed | Pad Speed | Notes |
+|------|--------------|-----------|-------|
+| Easy | 4 | 3 | Slower movement |
+| Medium | 5 | 4 | Default mode |
+| Hard | 7 | 6 | Faster play |
+| Experimental | 5 | 4 | Unlocks manual speed sliders |
 
 ## Setup
 
