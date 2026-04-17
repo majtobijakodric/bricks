@@ -14,6 +14,34 @@ let endSweetShown = false
 let listenersBound = false
 let currentMode = modeConfig.defaultMode
 
+function parseStoredScoreLine(line) {
+  const parts = line.split('|')
+  const score = Number(parts[0])
+
+  if (!Number.isFinite(score)) {
+    return null
+  }
+
+  const timestamp = Number(parts[1])
+
+  return {
+    score,
+    timestamp: Number.isFinite(timestamp) ? timestamp : null,
+    didFinish: parts[2] === '1',
+    mode: parts[3] || null,
+  }
+}
+
+function encodeStoredScore(score, didFinish, mode) {
+  let finishFlag = '0'
+
+  if (didFinish) {
+    finishFlag = '1'
+  }
+
+  return [score, Date.now(), finishFlag, mode].join('|')
+}
+
 function getStoredScores() {
   const rawScores = localStorage.getItem(scoreHistoryStorageKey)
 
@@ -21,38 +49,25 @@ function getStoredScores() {
     return []
   }
 
-  try {
-    const parsedScores = JSON.parse(rawScores)
+  const lines = rawScores.split('\n')
+  const scores = []
 
-    if (!Array.isArray(parsedScores)) {
-      return []
+  for (let index = 0; index < lines.length; index += 1) {
+    const parsedScore = parseStoredScoreLine(lines[index])
+
+    if (parsedScore) {
+      scores.push(parsedScore)
     }
-
-    return parsedScores.flatMap((entry) => {
-      if (Number.isFinite(entry)) {
-        return [{ score: Number(entry), timestamp: null, didFinish: false, mode: null }]
-      }
-
-      if (!entry || typeof entry !== 'object' || !Number.isFinite(entry.score)) {
-        return []
-      }
-
-      return [{
-        score: Number(entry.score),
-        timestamp: Number.isFinite(entry.timestamp) ? Number(entry.timestamp) : null,
-        didFinish: entry.didFinish === true,
-        mode: typeof entry.mode === 'string' ? entry.mode : null,
-      }]
-    })
-  } catch {
-    return []
   }
+
+  return scores
 }
 
 function saveScore(score, didFinish = false) {
-  const scores = getStoredScores()
-  scores.unshift({ score, timestamp: Date.now(), didFinish, mode: currentMode })
-  localStorage.setItem(scoreHistoryStorageKey, JSON.stringify(scores))
+  const encodedScore = encodeStoredScore(score, didFinish, currentMode)
+  const previousScores = localStorage.getItem(scoreHistoryStorageKey)
+  const nextScores = previousScores ? `${encodedScore}\n${previousScores}` : encodedScore
+  localStorage.setItem(scoreHistoryStorageKey, nextScores)
 }
 
 function formatModeLabel(mode) {

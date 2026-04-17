@@ -57,23 +57,35 @@ function loadSprite(src) {
   return sprite
 }
 
-function pickWeightedSpriteColor() {
-  const entries = Object.entries(rockSpriteConfig.weights)
-  const totalWeight = entries.reduce((sum, [, weight]) => sum + weight, 0)
-  let threshold = Math.random() * totalWeight
+function pickAsteroidColor() {
+  const grayWeight = rockSpriteConfig.weights.gray
+  const normalWeight = rockSpriteConfig.weights.normal
+  const blueWeight = rockSpriteConfig.weights.blue
+  const redWeight = rockSpriteConfig.weights.red
+  const totalWeight = grayWeight + normalWeight + blueWeight + redWeight
 
-  for (const [color, weight] of entries) {
-    threshold -= weight
-
-    if (threshold <= 0) {
-      return color
-    }
+  if (totalWeight <= 0) {
+    return 'normal'
   }
 
-  return entries[entries.length - 1]?.[0] ?? 'normal'
+  const x = Math.floor(Math.random() * 100) + 1
+
+  if (x > 100 - grayWeight) {
+    return 'gray'
+  }
+
+  if (x > 100 - (grayWeight + normalWeight)) {
+    return 'normal'
+  }
+
+  if (x > 100 - (grayWeight + normalWeight + blueWeight)) {
+    return 'blue'
+  }
+
+  return 'red'
 }
 
-function pickRandomSprite(color) {
+function pickRandomAsteroid(color) {
   const sources = rockSpriteSources[color]
   const source = sources[Math.floor(Math.random() * sources.length)] ?? sources[0]
   return loadSprite(source)
@@ -100,6 +112,7 @@ export function launchRocketFromPad() {
 
   setRocketLaunched(true)
 
+  // Chooses a random angle between 45° and 90°
   const launchAngle = (Math.random() * Math.PI) / 2 + Math.PI / 4
   rocket.x = pad.x + pad.width / 2
   rocket.y = pad.y - rocket.radius - 5
@@ -155,14 +168,14 @@ export function initializeAsteroids() {
 
   for (let row = 0; row < rows; row += 1) {
     for (let column = 0; column < columns; column += 1) {
-      const spriteColor = pickWeightedSpriteColor()
+      const spriteColor = pickAsteroidColor()
 
       asteroids.push({
         x: startX + (column * (cellWidth + cell.marginLeftRight)),
         y: startY + (row * (cell.height + cell.marginTop)),
         width: cellWidth,
         height: cell.height,
-        sprite: pickRandomSprite(spriteColor),
+        sprite: pickRandomAsteroid(spriteColor),
         spriteColor,
       })
     }

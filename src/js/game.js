@@ -42,6 +42,7 @@ let fuelDrainMultiplier = 1
 let padSpeedMultiplier = 1
 let rocketSpeedMultiplier = 1
 
+// for timers and the main game loop state
 let fuelPauseTimeoutId = null
 let fuelDrainTimeoutId = null
 let padSpeedTimeoutId = null
