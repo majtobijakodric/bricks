@@ -76,6 +76,31 @@ export function showPadSpeedSweet(value) {
   })
 }
 
+export function showPlayerNameSweet({
+  title,
+  inputValue = '',
+  allowCancel = false,
+}) {
+  return fireSweet({
+    title,
+    input: 'text',
+    inputValue,
+    inputLabel: 'Player name',
+    inputPlaceholder: 'Type your name',
+    confirmButtonText: 'Save',
+    showCancelButton: allowCancel,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    inputValidator: (value) => {
+      if (!String(value).trim()) {
+        return 'Please type your name'
+      }
+
+      return undefined
+    },
+  })
+}
+
 export function showGameOverSweet() {
   return fireSweet({
     title: 'You are out of fuel.',

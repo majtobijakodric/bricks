@@ -15,6 +15,7 @@ export const modeButton = document.querySelector('#modeButton')
 export const currentScoreButton = document.querySelector('#currentScoreButton')
 export const rocketSpeedButton = document.querySelector('#rocketSpeedButton')
 export const padSpeedButton = document.querySelector('#padSpeedButton')
+export const playerNameButton = document.querySelector('#playerNameButton')
 
 export function setupCanvasSize() {
   if (!gameCanvas) return

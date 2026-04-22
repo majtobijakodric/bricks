@@ -4,16 +4,22 @@ import { initializeAsteroids, resetPadPosition, resetRocketLaunchState } from '.
 import { gameCanvas, setupCanvasSize } from './canvas.js'
 import { startGameLoop } from './game.js'
 import { renderScene } from './render.js'
+import { ensurePlayerNameBeforeFirstPlay } from './score-history.js'
 import { initializeUi } from './ui.js'
 
-initializeUi()
-setupPlanetBackground()
+async function bootstrapGame() {
+  initializeUi()
+  setupPlanetBackground()
+  await ensurePlayerNameBeforeFirstPlay()
 
-if (gameCanvas) {
-  setupCanvasSize()
-  resetPadPosition()
-  resetRocketLaunchState()
-  initializeAsteroids()
-  renderScene()
-  startGameLoop()
+  if (gameCanvas) {
+    setupCanvasSize()
+    resetPadPosition()
+    resetRocketLaunchState()
+    initializeAsteroids()
+    renderScene()
+    startGameLoop()
+  }
 }
+
+void bootstrapGame()
