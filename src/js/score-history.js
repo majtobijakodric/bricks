@@ -4,6 +4,9 @@ import { playerNameButton } from './canvas.js'
 const scoreHistoryStorageKey = 'the-bricks-score-history'
 
 function sanitizePlayerName(name) {
+  if (typeof name !== 'string') {
+    return '';
+  }
   return name.trim()
 }
 

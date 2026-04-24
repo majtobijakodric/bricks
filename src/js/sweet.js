@@ -118,7 +118,7 @@ export function showWinSweet() {
   })
 }
 
-export function showModeSweet(currentMode) {
+export async function showModeSweet(currentMode) {
   const modes = ['easy', 'medium', 'hard', 'experimental']
   let optionButtons = ''
 
@@ -139,42 +139,30 @@ export function showModeSweet(currentMode) {
     `
   }
 
-  return new Promise((resolve) => {
-    let settled = false
+  let selectedMode = null
 
-    const settle = (value) => {
-      if (settled) {
-        return
-      }
+  await fireSweet({
+    title: 'Select Mode',
+    html: `<div class="mode-option-list">${optionButtons}</div>`,
+    showConfirmButton: false,
+    showCloseButton: true,
+    didOpen: (popup) => {
+      const buttons = popup.querySelectorAll('[data-mode]')
 
-      settled = true
-      resolve(value)
-    }
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const mode = button.dataset.mode
 
-    void fireSweet({
-      title: 'Select Mode',
-      html: `<div class="mode-option-list">${optionButtons}</div>`,
-      showConfirmButton: false,
-      showCloseButton: true,
-      didOpen: (popup) => {
-        const buttons = popup.querySelectorAll('[data-mode]')
+          if (!mode) {
+            return
+          }
 
-        buttons.forEach((button) => {
-          button.addEventListener('click', () => {
-            const mode = button.dataset.mode
-
-            if (!mode) {
-              return
-            }
-
-            settle(mode)
-            Swal.close()
-          })
+          selectedMode = mode
+          Swal.close()
         })
-      },
-      willClose: () => {
-        settle(null)
-      },
-    })
+      })
+    },
   })
+
+  return selectedMode
 }
